@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>LifeTrXck — Personal Productivity</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="lifetrack.css" />
+</head>
+
+<body>
+
+  <!-- AUTH SCREEN -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-bg-orb auth-orb1"></div>
+    <div class="auth-bg-orb auth-orb2"></div>
+    <div class="auth-bg-orb auth-orb3"></div>
+    <div class="auth-card">
+      <div class="auth-logo">
+        <span class="auth-logo-mark">LT</span>
+        <span class="auth-logo-text">LifeTrXck</span>
+      </div>
+      <h2 class="auth-title" id="auth-title">Welcome back</h2>
+      <p class="auth-sub" id="auth-sub">Sign in to your space</p>
+      <div class="auth-field">
+        <label>Username</label>
+        <input type="text" id="auth-username" placeholder="your name" autocomplete="off" spellcheck="false" />
+      </div>
+      <div class="auth-field">
+        <label>Password</label>
+        <input type="password" id="auth-password" placeholder="••••••••" />
+      </div>
+      <p class="auth-error" id="auth-error"></p>
+      <button class="auth-submit" id="auth-submit">Sign In</button>
+      <button class="auth-toggle" id="auth-toggle">No account? <b>Create one</b></button>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="main-app" class="main-app hidden">
+
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Mobile top bar -->
+    <div class="mobile-top-bar">
+      <button class="mobile-hamburger" id="mobile-hamburger" aria-label="Open menu">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+          <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </button>
+      <span class="mobile-brand">LifeTrXck</span>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <span class="brand-mark">LT</span>
+          <span class="brand-name">LifeTrXck</span>
+        </div>
+        <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3 5h12M3 9h12M3 13h12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-page="dashboard">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="2" width="7" height="7" rx="2" fill="currentColor" opacity=".8" />
+            <rect x="11" y="2" width="7" height="7" rx="2" fill="currentColor" opacity=".4" />
+            <rect x="2" y="11" width="7" height="7" rx="2" fill="currentColor" opacity=".4" />
+            <rect x="11" y="11" width="7" height="7" rx="2" fill="currentColor" opacity=".4" />
+          </svg>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-item" data-page="tasks">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M4 6h12M4 10h8M4 14h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+            <circle cx="15" cy="14" r="3" fill="currentColor" opacity=".6" />
+            <path d="M14 14l.8.8 1.5-1.5" stroke="white" stroke-width="1.3" stroke-linecap="round" />
+          </svg>
+          <span>Tasks</span>
+        </button>
+        <button class="nav-item" data-page="water">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M10 3C10 3 4 9.5 4 13a6 6 0 0012 0c0-3.5-6-10-6-10z" fill="currentColor" opacity=".7" />
+          </svg>
+          <span>Water</span>
+        </button>
+        <button class="nav-item" data-page="exercise">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="5" r="2.5" fill="currentColor" opacity=".7" />
+            <path d="M6 9c0 0-2 1-2 3s1 3 2 3l4-3 4 3c1 0 2-1 2-3s-2-3-2-3" stroke="currentColor" stroke-width="1.5"
+              fill="none" />
+            <path d="M10 12v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          </svg>
+          <span>Exercise</span>
+        </button>
+        <button class="nav-item" data-page="study">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M4 5h12v10a2 2 0 01-2 2H6a2 2 0 01-2-2V5z" stroke="currentColor" stroke-width="1.5" fill="none" />
+            <path d="M8 5V3h4v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+            <path d="M7 10h6M7 13h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+          <span>Study</span>
+        </button>
+        <button class="nav-item" data-page="sleep">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+            <path d="M8 4a8 8 0 100 12 6 6 0 010-12z" fill="currentColor" opacity=".7" />
+            <path d="M14 6l1-1M15 9h1M14 12l1 1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+          <span>Sleep</span>
+        </button>
+        <button class="nav-item" data-page="cycle" id="nav-cycle" style="display:none">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5" fill="none" />
+            <path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+          <span>Cycle</span>
+        </button>
+        <button class="nav-item" data-page="settings">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none" />
+            <path d="M10 2v2M10 16v2M2 10h2M16 10h2M4.2 4.2l1.4 1.4M14.4 14.4l1.4 1.4M4.2 15.8l1.4-1.4M14.4 5.6l1.4-1.4"
+              stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+          <span>Settings</span>
+        </button>
+      </nav>
+      <div class="sidebar-user">
+        <div class="user-avatar" id="sidebar-avatar">?</div>
+        <div class="user-info">
+          <span class="user-name" id="sidebar-username">User</span>
+          <span class="user-since" id="sidebar-since">Member</span>
+        </div>
+        <button class="logout-btn" id="logout-btn" title="Logout">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l4-4-4-4M14 8H6" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content" id="main-content">
+
+      <!-- DASHBOARD -->
+      <section class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title" id="dash-greeting">Good morning 👋</h1>
+            <p class="page-sub" id="dash-date"></p>
+          </div>
+          <div class="streak-badge">🔥 <span id="streak-count">0</span> day streak</div>
+        </div>
+        <div class="summary-grid" id="dash-summary"></div>
+        <div class="section-label">Today at a glance</div>
+        <div class="glance-grid" id="dash-glance"></div>
+        <div class="section-label">Weekly overview</div>
+        <div class="weekly-chart-card">
+          <div style="position:relative;height:200px"><canvas id="dash-weekly-chart"></canvas></div>
+        </div>
+      </section>
+
+      <!-- TASKS -->
+      <section class="page" id="page-tasks">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Habit Tracker</h1>
+            <p class="page-sub" id="tasks-date-sub"></p>
+          </div>
+        </div>
+        <div class="task-stats" id="task-stats"></div>
+        <div class="tasks-add-row">
+          <input type="text" id="task-input" placeholder="Add a new habit…" maxlength="60" autocomplete="off" />
+          <button id="task-add-btn">＋ Add</button>
+        </div>
+        <div
+          style="display:flex;gap:1rem;margin-bottom:1rem;font-size:.76rem;color:var(--muted2);font-family:'DM Mono',monospace;flex-wrap:wrap;align-items:center">
+          <span style="display:flex;align-items:center;gap:.4rem"><span
+              style="width:9px;height:9px;border-radius:50%;background:var(--green);display:inline-block"></span>Done</span>
+          <span style="display:flex;align-items:center;gap:.4rem"><span
+              style="width:9px;height:9px;border-radius:50%;background:var(--red);display:inline-block"></span>Missed</span>
+          <span style="display:flex;align-items:center;gap:.4rem"><span
+              style="width:9px;height:9px;border-radius:50%;background:var(--border2);display:inline-block"></span>Blank</span>
+          <span style="margin-left:auto;font-size:.7rem">Tap cell: blank→✔→✘→blank</span>
+        </div>
+        <div class="tbl-wrap">
+          <table>
+            <thead id="tasks-thead"></thead>
+            <tbody id="tasks-tbody"></tbody>
+          </table>
+        </div>
+        <div class="section-label">Focus & Score</div>
+        <div class="bottom-grid">
+          <div class="panel">
+            <div class="panel-title">Today's Score</div>
+            <div class="score-big">
+              <div class="score-num" id="score-num">0%</div>
+              <div class="score-label">tasks marked done today</div>
+            </div>
+            <div class="chart-wrap"><canvas id="donut-chart"></canvas></div>
+          </div>
+          <div class="panel" style="grid-column:1/-1">
+            <div class="panel-title">30-day Productivity Trend</div>
+            <div style="position:relative;height:200px"><canvas id="trend-chart"></canvas></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WATER -->
+      <section class="page" id="page-water">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Water Tracker</h1>
+            <p class="page-sub">Stay hydrated</p>
+          </div>
+        </div>
+        <div class="water-main-card">
+          <div class="water-visual">
+            <div class="water-bottle">
+              <div class="water-fill" id="water-fill"></div>
+              <div class="water-count" id="water-count">0</div>
+            </div>
+          </div>
+          <div class="water-controls">
+            <div class="water-progress-label"><span id="water-current">0</span> / <span id="water-goal-display">8</span>
+              glasses</div>
+            <div class="prog-bar-wrap">
+              <div class="prog-bar-fill blue" id="water-bar" style="width:0%"></div>
+            </div>
+            <div class="water-btns">
+              <button class="water-btn minus" id="water-minus">−</button>
+              <button class="water-btn plus" id="water-plus">+ Glass</button>
+            </div>
+            <div class="water-goal-row">
+              <label>Daily goal:</label>
+              <input type="number" id="water-goal-input" min="1" max="20" value="8" />
+              <button class="btn-sm" id="water-goal-save">Set</button>
+            </div>
+          </div>
+        </div>
+        <div class="section-label">Last 7 days</div>
+        <div class="history-chart-card"><canvas id="water-history-chart" height="160"></canvas></div>
+      </section>
+
+      <!-- EXERCISE -->
+      <section class="page" id="page-exercise">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Exercise</h1>
+            <p class="page-sub">Track your workouts</p>
+          </div>
+        </div>
+        <div class="exercise-card">
+          <div class="ex-status-row">
+            <div class="ex-done-toggle" id="ex-toggle" role="button" tabindex="0" aria-label="Toggle exercise done">
+              <div class="ex-toggle-track" id="ex-toggle-track">
+                <div class="ex-toggle-thumb"></div>
+              </div>
+              <span class="ex-toggle-label" id="ex-toggle-label">Mark as Done</span>
+            </div>
+            <div class="streak-pill">🔥 <span id="ex-streak">0</span> day streak</div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label>Workout Type</label>
+              <select id="ex-type">
+                <option value="">Select type…</option>
+                <option>Running</option>
+                <option>Gym</option>
+                <option>Cycling</option>
+                <option>Swimming</option>
+                <option>Yoga</option>
+                <option>HIIT</option>
+                <option>Walking</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label>Duration (minutes)</label>
+              <input type="number" id="ex-duration" placeholder="30" min="1" max="300" />
+            </div>
+            <button class="btn-primary" id="ex-save-btn" style="align-self:flex-end">Save Workout</button>
+          </div>
+        </div>
+        <div class="section-label">Last 7 days</div>
+        <div class="ex-history" id="ex-history"></div>
+      </section>
+
+      <!-- STUDY -->
+      <section class="page" id="page-study">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Study Log</h1>
+            <p class="page-sub">Track your learning</p>
+          </div>
+        </div>
+        <div class="study-add-card">
+          <div class="form-row">
+            <div class="form-field"><label>Subject</label><input type="text" id="study-subject"
+                placeholder="e.g. Mathematics" autocomplete="off" /></div>
+            <div class="form-field"><label>Hours</label><input type="number" id="study-hours" placeholder="1.5"
+                min="0.1" max="24" step="0.1" /></div>
+            <button class="btn-primary" id="study-add-btn" style="align-self:flex-end">Log Session</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Pomodoro Timer</div>
+          <div class="timer-display" id="timer-display">25:00</div>
+          <div class="pbar-wrap">
+            <div class="pbar-fill" id="timer-bar" style="width:100%"></div>
+          </div>
+          <div class="timer-btns">
+            <button id="btn-start">▶ Start</button>
+            <button id="btn-pause">⏸ Pause</button>
+            <button id="btn-reset">↺ Reset</button>
+          </div>
+          <div class="timer-meta">
+            <span>Sessions <b id="pomo-sessions">0</b></span>
+            <span>Tab switches <b id="pomo-warnings" style="color:var(--red)">0</b></span>
+          </div>
+        </div>
+        <div class="study-today-summary">
+          <div class="study-stat-chip"><span class="stat-num" id="study-today-hrs">0h</span><span
+              class="stat-lbl">today</span></div>
+          <div class="study-stat-chip"><span class="stat-num" id="study-week-hrs">0h</span><span class="stat-lbl">this
+              week</span></div>
+        </div>
+        <div id="study-today-log" class="study-log-list"></div>
+        <div class="section-label">Weekly study hours</div>
+        <div class="history-chart-card"><canvas id="study-chart" height="160"></canvas></div>
+      </section>
+
+      <!-- SLEEP -->
+      <section class="page" id="page-sleep">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Sleep Tracker</h1>
+            <p class="page-sub">Rest well, perform better</p>
+          </div>
+        </div>
+        <div class="sleep-input-card">
+          <div class="form-row">
+            <div class="form-field"><label>Bedtime</label><input type="time" id="sleep-bed" /></div>
+            <div class="form-field"><label>Wake time</label><input type="time" id="sleep-wake" /></div>
+            <button class="btn-primary" id="sleep-log-btn" style="align-self:flex-end">Log Sleep</button>
+          </div>
+        </div>
+        <div class="sleep-result hidden" id="sleep-result">
+          <div class="sleep-duration" id="sleep-duration">0h 0m</div>
+          <div class="sleep-quality-badge" id="sleep-quality-badge">—</div>
+        </div>
+        <div class="section-label">Last 7 nights</div>
+        <div class="history-chart-card"><canvas id="sleep-chart" height="160"></canvas></div>
+      </section>
+
+      <!-- CYCLE -->
+      <section class="page" id="page-cycle">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Cycle Tracker</h1>
+            <p class="page-sub">Know your body</p>
+          </div>
+        </div>
+        <div class="cycle-setup-card">
+          <div class="form-row">
+            <div class="form-field"><label>Last period start</label><input type="date" id="cycle-last-start" /></div>
+            <div class="form-field"><label>Cycle length (days)</label><input type="number" id="cycle-length" value="28"
+                min="21" max="40" /></div>
+            <div class="form-field"><label>Period duration (days)</label><input type="number" id="cycle-duration"
+                value="5" min="1" max="10" /></div>
+            <button class="btn-primary" id="cycle-save-btn" style="align-self:flex-end">Update</button>
+          </div>
+        </div>
+        <div class="cycle-status-grid" id="cycle-status"></div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="page" id="page-settings">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Settings</h1>
+            <p class="page-sub">Customize your experience</p>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="settings-section-title">Profile</div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Username</div>
+              <div class="settings-value" id="settings-username">—</div>
+            </div>
+            <button class="btn-danger" id="settings-logout">Logout</button>
+          </div>
+        </div>
+
+        <!-- THEME PICKER CARD -->
+        <div class="settings-card">
+          <div class="settings-section-title">App Theme</div>
+          <div class="settings-row" style="flex-wrap:wrap;gap:1rem">
+            <div>
+              <div class="settings-label">Color &amp; Mode</div>
+              <div class="settings-value">Choose your vibe</div>
+            </div>
+          </div>
+          <div class="theme-picker" id="theme-picker" style="margin-top:1rem">
+            <!-- swatches rendered by JS -->
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-section-title">Modules</div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Cycle Tracker</div>
+              <div class="settings-value">Track menstrual cycle data</div>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="cycle-toggle" />
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-card">
+          <div class="settings-section-title">Data</div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Clear all data</div>
+              <div class="settings-value">Permanently delete your tracking history</div>
+            </div>
+            <button class="btn-danger" id="clear-data-btn">Clear Data</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- MOBILE BOTTOM NAV -->
+    <nav class="mobile-bottom-nav">
+      <div class="bottom-nav-items">
+        <button class="bottom-nav-item active" data-page="dashboard">
+          <svg viewBox="0 0 20 20" fill="none">
+            <rect x="2" y="2" width="7" height="7" rx="2" fill="currentColor" opacity=".8" />
+            <rect x="11" y="2" width="7" height="7" rx="2" fill="currentColor" opacity=".4" />
+            <rect x="2" y="11" width="7" height="7" rx="2" fill="currentColor" opacity=".4" />
+            <rect x="11" y="11" width="7" height="7" rx="2" fill="currentColor" opacity=".4" />
+          </svg>
+          Home
+        </button>
+        <button class="bottom-nav-item" data-page="tasks">
+          <svg viewBox="0 0 20 20" fill="none">
+            <path d="M4 6h12M4 10h8M4 14h10" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          </svg>
+          Tasks
+        </button>
+        <button class="bottom-nav-item" data-page="water">
+          <svg viewBox="0 0 20 20" fill="none">
+            <path d="M10 3C10 3 4 9.5 4 13a6 6 0 0012 0c0-3.5-6-10-6-10z" fill="currentColor" opacity=".7" />
+          </svg>
+          Water
+        </button>
+        <button class="bottom-nav-item" data-page="exercise">
+          <svg viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="5" r="2.5" fill="currentColor" opacity=".7" />
+            <path d="M10 12v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" />
+          </svg>
+          Workout
+        </button>
+        <button class="bottom-nav-item" data-page="settings">
+          <svg viewBox="0 0 20 20" fill="none">
+            <circle cx="10" cy="10" r="3" stroke="currentColor" stroke-width="1.5" fill="none" />
+            <path d="M10 2v2M10 16v2M2 10h2M16 10h2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" />
+          </svg>
+          More
+        </button>
+      </div>
+    </nav>
+
+  </div>
+
+  <!-- LOGOUT MODAL -->
+  <div class="modal-overlay hidden" id="logout-modal">
+    <div class="modal-box">
+      <h3>Sign out?</h3>
+      <p>Your data is saved and will be here when you return.</p>
+      <div class="modal-btns">
+        <button class="btn-ghost" id="modal-cancel">Cancel</button>
+        <button class="btn-danger" id="modal-confirm">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
+<script src="lifetrack.js"></script>
+</body>
+
+</html>
